@@ -1,6 +1,8 @@
 const Input = ({ onInputChange, onUserSubmit, country }) => {
+    if (!country) return
+
     return (<>
-        {!country ? <h4>Enter a starting country</h4> : <h4>name a bordering country</h4>}
+        {<h4>Choose your next destination, which borders {country.name}</h4>}
         <input type="text"
             placeholder="Enter Country Name"
             onChange={onInputChange} />
@@ -10,5 +12,5 @@ const Input = ({ onInputChange, onUserSubmit, country }) => {
 
     );
 }
-
+//  ******* change above back to a button event to work again.  done for the day.  pfft.👍
 export default Input;

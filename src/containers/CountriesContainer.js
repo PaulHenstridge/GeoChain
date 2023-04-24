@@ -18,7 +18,10 @@ const CountriesContainer = () => {
     const [borders, setBorders] = useState([])
     const [targetCountry, setTargetCountry] = useState(null)
 
-    const [infoMessage, setInfoMessage] = useState('Welcome to CountryChain!  Select a starting point, then try to create a chain of connecting countries, without revisiting any')
+    const [infoMessage, setInfoMessage] = useState(`
+    Create a chain of connecting countries, 
+    without visiting anywhere twice!`)
+
     const [score, setScore] = useState(0)
 
     useEffect(() => {
@@ -28,11 +31,23 @@ const CountriesContainer = () => {
     const fetchAll = async () => {
         let response = await fetch(`https://restcountries.com/v3.1/all`)
         let data = await response.json()
-        setAllCountries(data)
+        console.log(data[163])
+        let allCnts = data.map((country) => {
+            return {
+                name: country.name.common,
+                flag: country.flag,
+                flagUrl: country.flags.png,
+                borders: country.borders,
+                code: country.cca3
+            }
+        })
+        setAllCountries(allCnts)
     }
 
     const handleInputChange = (e) => {
+        console.log(e)
         setInputValue(e.target.value)
+
     }
 
     const handleOnUserSubmit = () => {
@@ -45,6 +60,7 @@ const CountriesContainer = () => {
         let idx = Math.floor(Math.random() * allCountries.length)
         setCountry(allCountries[idx])
         setBorders(allCountries[idx].borders)
+        setInfoMessage('')
     }
 
     useEffect(() => {
@@ -104,6 +120,7 @@ const CountriesContainer = () => {
             }
         } else {
             setInfoMessage(`Sorry, ${targetCountry.name} does not border ${country.name}`)
+            setScore(0)
         }
     }
 
